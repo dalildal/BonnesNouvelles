@@ -3,23 +3,22 @@ class Db
 {
     private static $instance = null;
     private $_db;
-    private $_pdo;
 
     private function __construct()
     {
         try {
 		
-	    $_db = parse_url(getenv("DATABASE_URL"));
+	    $db = parse_url(getenv("DATABASE_URL"));
 
-	    $_pdo = new PDO("pgsql:" . sprintf(
+	    $this->_db = new PDO("pgsql:" . sprintf(
 		    "host=%s;port=%s;user=%s;password=%s;dbname=%s",
-		    $_db["host"],
-		    $_db["port"],
-		    $_db["user"],
-		    $_db["pass"],
+		    $db["host"],
+		    $db["port"],
+		    $db["user"],
+		    $db["pass"],
 		    ltrim($_db["path"], "/")
 		));
-            $this->_pdo->setAttribute(PDO::ATTR_ERRMODE,PDO::ERRMODE_EXCEPTION);
+            $this->_db->setAttribute(PDO::ATTR_ERRMODE,PDO::ERRMODE_EXCEPTION);
         } 
 		catch (PDOException $e) {
 		    die('Erreur de connexion à la base de données : '.$e->getMessage());
