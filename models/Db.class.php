@@ -16,7 +16,7 @@ class Db
 		    $db["port"],
 		    $db["user"],
 		    $db["pass"],
-		    ltrim($_db["path"], "/")
+		    ltrim($db["path"], "/")
 		));
 	     $this->_db->setAttribute(PDO::ATTR_ERRMODE,PDO::ERRMODE_EXCEPTION);
 
