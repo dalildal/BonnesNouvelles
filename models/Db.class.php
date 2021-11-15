@@ -3,11 +3,22 @@ class Db
 {
     private static $instance = null;
     private $_db;
+    private $_pdo;
 
     private function __construct()
     {
         try {
-            $this->_db = new PDO('mysql:host=localhost;dbname=bdbn;charset=utf8', 'root', '');
+		
+	    $_db = parse_url(getenv("DATABASE_URL"));
+
+	    $_pdo = new PDO("pgsql:" . sprintf(
+		    "host=%s;port=%s;user=%s;password=%s;dbname=%s",
+		    $db["host"],
+		    $db["port"],
+		    $db["user"],
+		    $db["pass"],
+		    ltrim($db["path"], "/")
+		));
             $this->_db->setAttribute(PDO::ATTR_ERRMODE,PDO::ERRMODE_EXCEPTION);
         } 
 		catch (PDOException $e) {
